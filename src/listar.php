@@ -1,6 +1,6 @@
 <?php
 
-$conexion = mysqli_connect("172.19.0.2","root","123","curso_udemy")
+$conexion = mysqli_connect("172.21.0.2","root","123","curso_udemy")
   or die ("No se ha podido conectar al servidor de Base de datos");
 
   $consulta = "SELECT name, age FROM people ";

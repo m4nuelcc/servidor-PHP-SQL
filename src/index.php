@@ -13,52 +13,64 @@
   </head>
   <body>
 
-    <?php
-        if(isset($_GET['success']) && $_GET['success'] == 1){
-            echo "<p style='color: green; text-align: center;'> La persona se agregó correctamente</p>";
+  <?php
+
+    //si en la respuesta del get tiene algun valor y ademas es uno
+    //pinta por pantalla la persona se agrago correctamente
+     if(isset($_GET['success']) && $_GET['success'] == 1){
+         echo "<p style='color: green; text-align: center;'> La persona se agregó correctamente</p>";
         };
+    ?>   
+    <!-- formulario para pedir los datos por metodo GET          -->
+    <form method="GET" action="capturar.php" style="max-width: 50%; margin: 10px auto;"> 
+       <div class="form-group">
+          <label>Nombre</label>
+          <input type="text" class="form-control" name="name" placeholder="Escriba Nombre">
+       </div>
+       <div class="form-group">
+          <label >Edad</label>
+          <input type="text" class="form-control"name="age" placeholder="Escriba Edad">
+       </div>
+         <button type="submit" class="btn btn-primary">Enviar</button>
+    </form>
+    <br>
 
-    ?>            
-       <form method="GET" action="capturar.php" style="max-width: 50%; margin: 10px auto;"> 
-         <div class="form-group">
-            <label for="exampleInputEmail1">Nombre</label>
-            <input type="text" class="form-control" name="name" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Escriba Nombre">
-         </div>
-         <div class="form-group">
-           <label for="exampleInputPassword1">Edad</label>
-            <input type="text" class="form-control"name="age" id="exampleInputPassword1" placeholder="Escriba Edad">
-         </div>
-           <button type="submit" class="btn btn-primary">Enviar</button>
-        </form>
-        <br>
-
-
+ <!-- se pintan los campos de la base de datador dentro de la tabla mediante un while -->
  <table class="table" style="max-width: 75%; margin: 0 auto;">       
-  <thead>
-    <tr>
-      <th scope="col">ID</th>
-      <th scope="col">Name</th>
-      <th scope="col">Edad</th>
-    </tr>
-  </thead>
-  <tbody>
-      <?php
-          $conexion = mysqli_connect("172.21.0.2","root","123","curso_udemy") or die ("No se ha podido conectar al servidor de Base de datos");
-          $consulta = "SELECT idpeople, name, age FROM people ";
-          if ($resultado = $conexion->query($consulta)) {
-              while ($fila = $resultado->fetch_row()) {
-                  echo "<tr>";
-                  echo "<td>" . $fila[0] . "</td>";
-                  echo "<td>" . $fila[1] . "</td>";
-                  echo "<td>" . $fila[2] . "</td>";
-                  echo "</tr>";
-                //   echo "nombre: " . $fila[0] . " Edad: " . $fila[1]. "</br>"; 
-              }
-   
-               $resultado->close();
-        }
-       ?>
-   </tbody>
+     <thead>
+         <tr>
+         <th scope="col">ID</th>
+         <th scope="col">Name</th>
+         <th scope="col">Edad</th>
+        </tr>
+     </thead>
+
+     <tbody>
+     <?php
+       //datos de la base de datos.
+        $ip = '172.21.0.2';
+        $usuario = "root";
+        $contaseña = "123";
+        $bd = "curso_udemy";  
+        // conexion a la base de datos 
+        $conexion = mysqli_connect("$ip","$usuario","$contaseña","$bd") or die ("No se ha podido conectar al servidor de Base de datos");
+        // se crea consulta SQL para mostar todos los datos de la base de datos people
+        $consulta = "SELECT idpeople, name, age FROM people ";
+        // si en la consulta devuelve algun dato la pinta
+         if ($resultado = $conexion->query($consulta)) {
+           while ($fila = $resultado->fetch_row()) {
+            //  tiene $fila[0]..$fila[2], porque la tabla tiene tres campos
+            echo "<tr>";
+            echo "<td>" . $fila[0] . "</td>";
+            echo "<td>" . $fila[1] . "</td>";
+            echo "<td>" . $fila[2] . "</td>";
+            echo "</tr>";
+            //   echo "nombre: " . $fila[0] . " Edad: " . $fila[1]. "</br>"; 
+            }
+           $resultado->close();
+         }
+      ?>
+      </tbody>
   </table>
 
     <!-- Optional JavaScript -->
